@@ -1,0 +1,29 @@
+body { 
+    font-family: 'DM Mono', monospace; 
+    background-color: #040406; 
+    color: #e4e4e7; 
+}
+
+h2 { 
+    font-family: 'Instrument Serif', serif; 
+}
+
+/* Customized Neon Thumb Sliders */
+input[type="range"]::-webkit-slider-thumb {
+    border-radius: 0px; 
+    background: #06b6d4; 
+    border: 2px solid #ffffff;
+    height: 20px; 
+    width: 12px; 
+    appearance: none; 
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.9);
+}
+
+/* Custom Scrollbar for Terminal Data Box */
+#console-stream::-webkit-scrollbar { 
+    width: 4px; 
+}
+
+#console-stream::-webkit-scrollbar-thumb { 
+    background: #d946ef; 
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AXON QUANTUM // Heavy Telemetry Terminal</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,500;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-fuchsia-500 selection:text-black">
+
+    <header class="w-full border-b-2 border-fuchsia-500 p-6 flex justify-between items-center bg-[#07070a] sticky top-0 z-50 shadow-[0_4px_30px_rgba(217,70,239,0.15)]">
+        <div class="flex items-center gap-3">
+            <span class="h-3 w-3 bg-cyan-400 rounded-full animate-pulse"></span>
+            <span class="font-bold tracking-widest text-sm text-fuchsia-400 font-mono">AXON_QUANTUM // MATRIX ENGINE v5.0</span>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-mono">
+            <span id="api-status-light" class="text-emerald-400 bg-emerald-950/60 px-3 py-1 border border-emerald-500/30">API_SOCKET: SYNCED</span>
+            <button id="audio-auth-btn" class="bg-yellow-500 text-black px-2 py-1 font-bold hover:bg-yellow-400 transition-all cursor-pointer text-[10px]">ENABLE SYNTH AUDIO</button>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 my-4">
+        
+        <div class="lg:col-span-6 space-y-6">
+            <div class="border-2 border-cyan-500 bg-[#060b0f] p-6 shadow-[0_0_25px_rgba(6,182,212,0.1)]">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl text-cyan-400 font-bold uppercase tracking-tight">01 / Telemetry Commands</h2>
+                    <button id="reset-cache-btn" class="text-[10px] text-zinc-500 border border-zinc-800 px-2 py-1 hover:text-red-400 hover:border-red-500 transition-all cursor-pointer">FLUSH STATE CACHE</button>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between text-xs uppercase text-cyan-300 mb-2 font-bold">
+                        <span>Payload Route Vector</span>
+                        <span id="distance-val" class="text-white font-mono bg-zinc-900 px-2 border border-zinc-700">200 KM</span>
+                    </div>
+                    <input type="range" id="distance-slider" min="10" max="1500" value="200" class="w-full h-2 bg-zinc-800 appearance-none cursor-pointer accent-cyan-400 rounded">
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-xs uppercase text-cyan-300 mb-2 font-bold tracking-wider">Network Grid Density Index</label>
+                    <div class="grid grid-cols-3 gap-2" id="traffic-button-group">
+                        <button data-factor="1.0" class="border-2 border-emerald-500 bg-emerald-950 text-emerald-400 font-bold p-2 text-xs uppercase transition-all cursor-pointer">Clear Link</button>
+                        <button data-factor="1.5" class="border border-zinc-700 bg-zinc-900/50 text-zinc-400 p-2 text-xs uppercase transition-all cursor-pointer">Heavy Jam</button>
+                        <button data-factor="2.5" class="border border-zinc-700 bg-zinc-900/50 text-zinc-400 p-2 text-xs uppercase transition-all cursor-pointer">Total Collapse</button>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-xs uppercase text-cyan-300 mb-2 font-bold tracking-wider">Infrastructure Terrain Matrix</label>
+                    <div class="grid grid-cols-3 gap-2" id="road-button-group">
+                        <button data-factor="1.0" class="border-2 border-fuchsia-500 bg-fuchsia-950 text-fuchsia-400 font-bold p-2 text-xs uppercase transition-all cursor-pointer">Grade-A Asphalt</button>
+                        <button data-factor="1.3" class="border border-zinc-700 bg-zinc-900/50 text-zinc-400 p-2 text-xs uppercase transition-all cursor-pointer">Gravel / Sub-grade</button>
+                        <button data-factor="1.8" class="border border-zinc-700 bg-zinc-900/50 text-zinc-400 p-2 text-xs uppercase transition-all cursor-pointer">Extreme Potholes</button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between border-t border-cyan-900/50 pt-4">
+                    <div>
+                        <span class="block text-xs uppercase text-yellow-400 font-bold">Speed Limiter Governor Link</span>
+                        <span class="text-[11px] text-zinc-500 font-mono">Locks vehicle down via remote server throttle dampening</span>
+                    </div>
+                    <input type="checkbox" id="speed-governor" class="h-6 w-6 accent-yellow-400 cursor-pointer">
+                </div>
+            </div>
+
+            <div class="border-2 border-zinc-800 bg-black p-4 flex flex-col h-48 justify-between shadow-2xl">
+                <span class="text-[10px] text-fuchsia-400 uppercase font-bold tracking-widest block border-b border-zinc-900 pb-2 mb-2">ACTIVE KERNEL PROCESSING INTERACTIVE PIPELINE</span>
+                <div id="console-stream" class="text-[11px] font-mono text-cyan-400 space-y-1 overflow-y-auto flex-grow flex flex-col justify-end"></div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-6 border-2 border-fuchsia-600 bg-[#0f0711] p-6 flex flex-col justify-between shadow-[0_0_25px_rgba(217,70,239,0.1)]">
+            <div>
+                <h2 class="text-3xl text-fuchsia-400 font-bold mb-6 uppercase tracking-tight">02 / Automated Reality Engine</h2>
+                
+                <div class="mb-6">
+                    <div class="flex justify-between text-xs uppercase text-fuchsia-300 mb-2 font-bold">
+                        <span>Piezoelectric Weighbridge Mass Rating</span>
+                        <span id="weight-val" class="text-white font-mono bg-zinc-900 px-2 border border-zinc-700">15.0 Tons</span>
+                    </div>
+                    <input type="range" id="weight-slider" min="2" max="50" step="0.5" value="15" class="w-full h-2 bg-zinc-800 appearance-none cursor-pointer accent-fuchsia-400 rounded">
+                    <div id="weighbridge-warning" class="text-xs bg-red-950/90 border border-red-500 text-red-400 p-2 font-bold uppercase mt-2 hidden animate-pulse">
+                        💥 REGULATORY VIOLATION: SUSPENSION STRUT STRESS FAILURE RADIUS SECURED. FINES ACTIVE.
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <div class="flex justify-between text-xs uppercase text-fuchsia-300 mb-2 font-bold">
+                        <span>Fluid/Cell Fuel Storage Volume</span>
+                        <span id="fuel-val" class="text-white font-mono bg-zinc-900 px-2 border border-zinc-700">600 Litres</span>
+                    </div>
+                    <input type="range" id="fuel-slider" min="20" max="1200" value="600" class="w-full h-2 bg-zinc-800 appearance-none cursor-pointer accent-cyan-400 rounded">
+                </div>
+
+                <div class="mb-6 bg-black/60 border border-fuchsia-900 p-4 space-y-3">
+                    <span class="text-[10px] uppercase font-bold text-zinc-500 block">REAL-TIME FLUID STRESS AND FRICTION CURVES</span>
+                    <div>
+                        <div class="flex justify-between text-[11px] text-zinc-400 mb-1"><span>Hydrocarbon Flow Burn Rate</span><span id="graph-burn-pct" class="text-yellow-400">0%</span></div>
+                        <div class="w-full bg-zinc-900 h-2 border border-zinc-800"><div id="graph-burn-bar" class="h-full bg-gradient-to-r from-yellow-500 to-orange-500 transition-all duration-300" style="width: 0%"></div></div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[11px] text-zinc-400 mb-1"><span>Chassis Infrastructure Structural Degradation Curve</span><span id="graph-strain-pct" class="text-cyan-400">0%</span></div>
+                        <div class="w-full bg-zinc-900 h-2 border border-zinc-800"><div id="graph-strain-bar" class="h-full bg-gradient-to-r from-cyan-500 to-fuchsia-500 transition-all duration-300" style="width: 0%"></div></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 border-t border-fuchsia-900/40 pt-6">
+                    <div class="border border-cyan-500/30 bg-cyan-950/20 p-4">
+                        <span class="block text-[10px] uppercase text-cyan-400 font-bold mb-1">Downstream Routing Expense</span>
+                        <div class="text-3xl font-bold text-white font-mono" id="out-cost">$0.00</div>
+                    </div>
+                    <div class="border border-orange-500/30 bg-orange-950/20 p-4">
+                        <span class="block text-[10px] uppercase text-orange-400 font-bold mb-1">Exhaust Carbon Envelope</span>
+                        <div class="text-3xl font-bold text-orange-400 font-mono" id="out-co2">0.00 kg</div>
+                    </div>
+                    <div class="border border-yellow-500/30 bg-yellow-950/20 p-4">
+                        <span class="block text-[10px] uppercase text-yellow-400 font-bold mb-1">Governed Terminal Velocity</span>
+                        <div class="text-3xl font-bold text-yellow-300 font-mono" id="out-speed">0 km/h</div>
+                    </div>
+                    <div class="border border-emerald-500/30 bg-emerald-950/20 p-4">
+                        <span class="block text-[10px] uppercase text-emerald-400 font-bold mb-1">Computed Burn Out Footprint</span>
+                        <div class="text-xs font-bold text-emerald-400 font-mono mt-2" id="out-fuel-status">CALCULATING PROFILES...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8">
+                <button id="dispatch-trigger" class="w-full border-2 border-cyan-500 bg-cyan-950 text-cyan-400 font-bold py-4 text-sm uppercase tracking-widest hover:bg-cyan-400 hover:text-black transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+                    DEPLOY COMPUTE TELEMETRY FLOW OVERREACH →
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full border-t border-zinc-900 p-6 text-xs text-zinc-600 flex flex-col sm:flex-row justify-between items-center gap-4 bg-[#050507]">
+        <div>&copy; 2026 AXON DIGITAL MULTI-VARIABLE STATE SYSTEMS</div>
+        <div class="font-mono text-[11px]">HARDWARE_FLOW: <span id="hardware-benchmark" class="text-yellow-400">CALCULATING COMPUTE SPEEDS...</span></div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
